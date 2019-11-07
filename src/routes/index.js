@@ -8,5 +8,6 @@ const router = new Router({
 
 router.get('/getUserList', userController.findAllUser)
 router.get('/login', userController.login)
+router.get('/addUser', userController.addUser)
 
 module.exports = router;

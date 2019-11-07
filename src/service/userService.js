@@ -1,18 +1,28 @@
-const query = require('../mysql');
-const sqlMap = require('../sql/user');
+const User = require('../modle/user');
 
 const userService = {
     findAllUser: async () => {
-        return await query(sqlMap.findAllUser, null);
+        try {
+            return await User.findAll();
+        } catch (error) {
+            throw error;
+        }
     },
 
     findOne: async (id) => {
-        return await query(sqlMap.findUserById, id);
+        return await User.findOne();
     },
 
     login: async (number) => {
-        return await query(sqlMap.findUserByPhone, number);
+        // return await query(sqlMap.findUserByPhone, number);
+    },
+    addUser: async (user) => {
+        await console.log(user)
+        console.log('====================================')
+        
+        console.log('====================================')
+        // return await User.create(user);
     }
-}
+};
 
 module.exports = userService;

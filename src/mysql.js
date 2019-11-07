@@ -19,10 +19,10 @@ const query = (sql, values) => {
             if (err) {
                 return reject(err);
             } else {
-                connection.query(sql, values, (err, rows) => {
+                connection.query({sql, values, timeout: 60000 }, (err, rows) => {
                     connection.release();
                     if (err) {
-                        return reject(err)
+                        return reject(err);
                     } else {
                         return resolve(rows);
                     }

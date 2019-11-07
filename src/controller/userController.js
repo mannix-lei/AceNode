@@ -4,21 +4,47 @@ const userService = require('../service/userService');
  * 查询所有用户
  */
 const findAllUser = async (ctx, next) => {
-    const res = await userService.findAllUser();
-    if (res) {
-        ctx.status = 200;
-        ctx.body = {
-            msg: 'success',
-            data: res,
+    try {
+        const res = await userService.findAllUser();
+        if (res) {
+            ctx.status = 200;
+            ctx.body = {
+                msg: 'success',
+                data: res,
+            }
+        } else {
+            ctx.status = 500;
+            ctx.body = {
+                msg: 'failed',
+                data: [],
+            }
         }
-    } else {
-        ctx.status = 500;
-        ctx.body = {
-            msg: 'failed',
-            data: [],
-        }
+    } catch (err) {
+        throw err;
     }
+    
 };
+
+const addUser = async (ctx, next) => {
+    try {
+        const res = await userService.addUser(ctx.request.user);
+        if (res) {
+            ctx.status = 200;
+            ctx.body = {
+                msg: 'success',
+                data: res,
+            }
+        } else {
+            ctx.status = 500;
+            ctx.body = {
+                msg: 'failed',
+                data: null,
+            }
+        }
+    } catch (error) {
+        throw error;
+    }
+}
 
 /**
  * 根据id查询用户
@@ -58,4 +84,5 @@ module.exports = {
     findAllUser,
     findUserById,
     login,
+    addUser,
 };
