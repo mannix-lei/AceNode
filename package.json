@@ -4,7 +4,7 @@
   "description": "backend for ace",
   "main": "./src/app.js",
   "scripts": {
-    "start": "node ./src/app.js",
+    "start": "nodemon node ./src/app.js",
     "build": "babel ./src/app.js -d dist"
   },
   "keywords": [
@@ -18,16 +18,25 @@
     "url": "git+https://github.com/mannix-lei/AceNode.git"
   },
   "dependencies": {
+    "@types/async": "^3.0.3",
     "@types/koa": "^2.0.51",
     "@types/koa-bodyparser": "^4.3.0",
+    "@types/koa-json": "^2.0.18",
+    "@types/koa-logger": "^3.1.1",
     "@types/koa-router": "^7.0.42",
+    "@types/koa2-cors": "^2.0.1",
+    "@types/mysql": "^2.15.7",
     "async": "^3.1.0",
     "http-proxy-middleware": "^0.20.0",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.2.1",
+    "koa-error": "^3.2.0",
     "koa-json": "^2.0.2",
+    "koa-logger": "^3.2.1",
     "koa-router": "^7.4.0",
+    "koa-service": "^1.0.1",
     "koa-static": "^5.0.0",
+    "koa2-cors": "^2.0.6",
     "mysql": "^2.17.1",
     "nodemon": "^1.19.4"
   },

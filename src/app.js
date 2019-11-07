@@ -1,26 +1,20 @@
 const Koa = require('koa');
-const Router = require('koa-router');
+const logger = require('koa-logger')
 const bodyParser = require('koa-bodyparser');
+const error = require('koa-error');
+const router = require('./routes/index');
+const service = require('./service/index');
 
-const router = new Router();
 const app = new Koa();
+const cors = require('koa2-cors');
 
-app.use(bodyParser);
-app.use(async (ctx, next) => {
-    console.log(`Process ${ctx.request.method} ${ctx.request.URL}...`);
-    await next();
-});
-router.get('/hello/:name', async (ctx, next) => {
-    var name = ctx.params.name;
-    ctx.response.body = `<h1>Hello, ${name}</h1>`;
-});
+app.use(cors());
+app.use(bodyParser());
+app.use(logger())
+app.use(error());
+app.use(service);
+app.use(router.routes(), router.allowedMethods());
 
-router.get('/', async (ctx, next) => {
-    ctx.response.body = `<h1>Index</h1>`;
-});
-
-app.use(router.routes());
 
 app.listen(3000);
 console.log('app started at port 3000');
-
