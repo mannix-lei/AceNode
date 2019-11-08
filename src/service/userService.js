@@ -1,19 +1,49 @@
 const User = require('../modle/user');
-
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 const userService = {
-    findAllUser: async () => {
+    findAllUser: async user => {
         try {
-            return await User.findAll();
+            if (user.email || user.name || user.mobile) {
+                return await User.findAll({
+                    raw: true,
+                    order: [
+                        ['createTime', 'DESC']
+                    ],
+                    where: {
+                        [Op.or]: [
+                            { 
+                                name: {
+                                    [Op.like]: '%' + user.name + '%'
+                                }
+                            },
+                            {
+                                mobile: user.mobile,
+                            },
+                            {
+                                email: user.email
+                            }
+                        ],
+                    }
+                });
+            } else {
+                return await User.findAll({
+                    raw: true,
+                    order: [
+                        ['createTime', 'DESC']
+                    ]
+                });
+            }
         } catch (error) {
             throw error;
         }
     },
 
-    findOne: async (id) => {
+    findOne: async id => {
         try {
             return await User.findAll({
                 where: {
-                    id: id,
+                    id: id
                 }
             });
         } catch (error) {
@@ -38,17 +68,20 @@ const userService = {
         });
     },
     updateUser: async user => {
-        return await User.update({
-            name: user.name,
-            password: user.password,
-            email: user.email,
-            mobile: user.mobile,
-            updateTime: new Date().toLocaleString(),
-        },{
-            where: {
-                id: user.id,
+        return await User.update(
+            {
+                name: user.name,
+                password: user.password,
+                email: user.email,
+                mobile: user.mobile,
+                updateTime: new Date().toLocaleString()
+            },
+            {
+                where: {
+                    id: user.id
+                }
             }
-        });
+        );
     }
 };
 

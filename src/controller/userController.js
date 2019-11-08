@@ -5,7 +5,7 @@ const userService = require('../service/userService');
  */
 const findAllUser = async (ctx, next) => {
     try {
-        const res = await userService.findAllUser();
+        const res = await userService.findAllUser(ctx.request.query);
         if (res) {
             ctx.status = 200;
             ctx.body = {
