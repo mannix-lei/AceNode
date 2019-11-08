@@ -7,7 +7,10 @@ const router = new Router({
 });
 
 router.get('/getUserList', userController.findAllUser)
-router.get('/login', userController.login)
-router.get('/addUser', userController.addUser)
+router.post('/addUser', userController.addUser)
+router.post('/delUser', userController.delUser)
+router.post('/updateUser', userController.updateUserById)
+router.get('/getUserInfoById', userController.findUserById)
+
 
 module.exports = router;

@@ -10,18 +10,45 @@ const userService = {
     },
 
     findOne: async (id) => {
-        return await User.findOne();
+        try {
+            return await User.findAll({
+                where: {
+                    id: id,
+                }
+            });
+        } catch (error) {
+            throw error;
+        }
     },
-
-    login: async (number) => {
-        // return await query(sqlMap.findUserByPhone, number);
+    addUser: async user => {
+        const userItem = {
+            id: Math.floor(Math.random() * Math.floor(9999999)),
+            createTime: new Date().toLocaleString(),
+            updateTime: new Date().toLocaleString(),
+            status: 0
+        };
+        await Object.assign(userItem, user);
+        return await User.create(userItem);
     },
-    addUser: async (user) => {
-        await console.log(user)
-        console.log('====================================')
-        
-        console.log('====================================')
-        // return await User.create(user);
+    delUser: async id => {
+        return await User.destroy({
+            where: {
+                id: id
+            }
+        });
+    },
+    updateUser: async user => {
+        return await User.update({
+            name: user.name,
+            password: user.password,
+            email: user.email,
+            mobile: user.mobile,
+            updateTime: new Date().toLocaleString(),
+        },{
+            where: {
+                id: user.id,
+            }
+        });
     }
 };
 

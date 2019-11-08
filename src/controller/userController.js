@@ -10,79 +10,119 @@ const findAllUser = async (ctx, next) => {
             ctx.status = 200;
             ctx.body = {
                 msg: 'success',
-                data: res,
-            }
+                data: res
+            };
         } else {
             ctx.status = 500;
             ctx.body = {
                 msg: 'failed',
-                data: [],
-            }
+                data: []
+            };
         }
     } catch (err) {
         throw err;
     }
-    
 };
 
+/**
+ * 添加用户
+ * @param {*} ctx 
+ * @param {*} next 
+ */
 const addUser = async (ctx, next) => {
     try {
-        const res = await userService.addUser(ctx.request.user);
+        const res = await userService.addUser(ctx.request.body.user);
         if (res) {
             ctx.status = 200;
             ctx.body = {
                 msg: 'success',
-                data: res,
-            }
+                data: res
+            };
         } else {
             ctx.status = 500;
             ctx.body = {
                 msg: 'failed',
-                data: null,
-            }
+                data: null
+            };
         }
     } catch (error) {
         throw error;
     }
-}
+};
+
+/**
+ * 删除用户
+ * @param {*} ctx 
+ * @param {*} next 
+ */
+const delUser = async (ctx, next) => {
+    try {
+        const res = await userService.delUser(ctx.request.body.id);
+        if (res) {
+            ctx.status = 200;
+            ctx.body = {
+                msg: 'success',
+                data: res
+            };
+        } else {
+            ctx.status = 500;
+            ctx.body = {
+                msg: 'failed',
+                data: null
+            };
+        }
+    } catch (error) {
+        throw error;
+    }
+};
 
 /**
  * 根据id查询用户
  * @param {number} id
  */
 const findUserById = async (ctx, next) => {
-    ctx.status = 200;
-    ctx.body = {
-        msg: 'success',
-        data: await userService.findOne(ctx.request.id),
+    try {
+        const res = await userService.findOne(ctx.request.query.id)
+        ctx.status = 200;
+        ctx.body = {
+            msg: 'success',
+            data: res[0],
+        };
+    } catch (error) {
+        throw error;
     }
-}
+};
 
 /**
- * 登录
+ * 更新用户信息
  * @param {*} ctx 
  * @param {*} next 
  */
-const login = async (ctx, next) => {
-    ctx.status = 200;
-    const user = await userService.login(ctx.request.number);
-
-    if (user.password = ctx.request.password) {
-        ctx.body = {
-            msg: 'success',
-            data: user,
+const updateUserById = async (ctx, next) => {
+    try {
+        const res = await userService.updateUser(ctx.request.body.user);
+        if (res) {
+            ctx.status = 200;
+            ctx.body = {
+                msg: 'success',
+                data: res
+            };
+        } else {
+            ctx.status = 500;
+            ctx.body = {
+                msg: 'failed',
+                data: null
+            };
         }
-    } else {
-        ctx.body = {
-            msg: 'failed',
-            data: user,
-        }
-    }   
+    } catch (error) {
+        throw error;
+    }
 }
 
 module.exports = {
     findAllUser,
     findUserById,
-    login,
     addUser,
+    delUser,
+    updateUserById,
 };
