@@ -4,36 +4,26 @@ const Op = Sequelize.Op;
 const userService = {
     findAllUser: async user => {
         try {
-            if (user.email || user.name || user.mobile) {
-                return await User.findAll({
-                    raw: true,
-                    order: [
-                        ['createTime', 'DESC']
-                    ],
-                    where: {
-                        [Op.or]: [
-                            { 
-                                name: {
-                                    [Op.like]: '%' + user.name + '%'
-                                }
-                            },
-                            {
-                                mobile: user.mobile,
-                            },
-                            {
-                                email: user.email
-                            }
-                        ],
-                    }
-                });
-            } else {
-                return await User.findAll({
-                    raw: true,
-                    order: [
-                        ['createTime', 'DESC']
-                    ]
-                });
+            const options = {};
+            if (user.name) {
+                options.name = '%' + user.name + '%'
             }
+            if (user.mobile) {
+                options.mobile = user.mobile;
+            }
+            if (user.email) {
+                options.email = user.email;
+            }
+            const res =  await User.findAndCountAll({
+                raw: true,
+                offset: Number(user.pageNo) - 1,
+                limit: Number(user.pageSize),
+                order: [
+                    ['createTime', 'DESC']
+                ],
+                where: options,
+            });
+            return res;
         } catch (error) {
             throw error;
         }

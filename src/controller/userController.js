@@ -5,20 +5,15 @@ const userService = require('../service/userService');
  */
 const findAllUser = async (ctx, next) => {
     try {
-        const res = await userService.findAllUser(ctx.request.query);
-        if (res) {
-            ctx.status = 200;
-            ctx.body = {
-                msg: 'success',
-                data: res
-            };
-        } else {
-            ctx.status = 500;
-            ctx.body = {
-                msg: 'failed',
-                data: []
-            };
-        }
+        const { count, rows } = await userService.findAllUser(ctx.request.query);
+        ctx.status = 200;
+        ctx.body = {
+            msg: 'success',
+            data: {
+                list: rows,
+                totalRows: count,
+            }
+        };
     } catch (err) {
         throw err;
     }
