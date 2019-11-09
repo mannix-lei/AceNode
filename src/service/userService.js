@@ -6,7 +6,9 @@ const userService = {
         try {
             const options = {};
             if (user.name) {
-                options.name = '%' + user.name + '%'
+                options.name = {
+                    [Op.like]: '%' + user.name + '%'
+                }
             }
             if (user.mobile) {
                 options.mobile = user.mobile;
