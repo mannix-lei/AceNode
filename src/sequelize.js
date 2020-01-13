@@ -1,7 +1,7 @@
 const Sequlice = require('sequelize');
 
-const sequelize = new Sequlice('ace', 'root', '123456', {
-    host: '101.200.195.220',
+const sequelize = new Sequlice('mannix', 'root', 'mannix235163', {
+    host: 'localhost',
     dialect: 'mysql',
     pool: {
         max: 5,
