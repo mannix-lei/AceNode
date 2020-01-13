@@ -1,6 +1,6 @@
 const Sequlice = require('sequelize');
 
-const sequelize = new Sequlice('mannix', 'root', 'mannix235163', {
+const sequelize = new Sequlice('mannix', 'mannixlei', 'mannix235163', {
     host: 'localhost',
     dialect: 'mysql',
     pool: {
